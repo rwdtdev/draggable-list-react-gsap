@@ -13,7 +13,10 @@ type Props = {
 
 export default function ListItem({ item, container }: Props) {
   return (
-    <li id={item.id} className={`listitem border ${item.id} p-4`}>
+    <li
+      id={item.id}
+      className={`listitem border ${item.id} h-10 mb-2 bg-white z-0`}
+    >
       {item.data}
     </li>
   );
