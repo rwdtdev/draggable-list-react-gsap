@@ -17,13 +17,13 @@ body {
 
 .g-container {
   position: relative;
-  top: 50%;
+  top: 20px;
   left: 50%;
-  width: 320px;
+  width: 400px;
   height: 400px;
   /* opacity: 0; */
   /* visibility: hidden; */
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0);
   cursor: grab;
 }
 
