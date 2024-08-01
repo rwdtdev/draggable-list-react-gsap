@@ -29,15 +29,16 @@ function App() {
 
       function changeIndex(item: Sortable, to: number) {
         // Change position in array
-        arrayMove(sortables, item.index, to);
+        // arrayMove(sortables, item.index, to);
+        sortables.splice(to, 0, sortables.splice(item.index, 1)[0]);
 
         // Change element's position in DOM. Not always necessary. Just showing how.
-        if (to === total - 1) {
-          container!.appendChild(item.element);
-        } else {
-          const i = item.index > to ? to : to + 1;
-          container!.insertBefore(item.element, container!.children[i]);
-        }
+        // if (to === total - 1) {
+        //   container!.appendChild(item.element);
+        // } else {
+        //   const i = item.index > to ? to : to + 1;
+        //   container!.insertBefore(item.element, container!.children[i]);
+        // }
 
         // Set index for each sortable
         sortables.forEach((sortable, index) => sortable.setIndex(index));
@@ -45,7 +46,7 @@ function App() {
 
       function Sortable(element: Element, index: number) {
         const content = element.querySelector(".item-content");
-        const order = element.querySelector(".order");
+        // const order = element.querySelector(".order");
 
         const animation = gsap.to(content, {
           boxShadow: "rgba(0,0,0,0.2) 0px 16px 32px 0px",
@@ -78,14 +79,16 @@ function App() {
           setIndex: setIndex,
         };
 
-        gsap.set(element, { y: index * rowSize });
+        gsap.to(element, { y: index * rowSize });
 
         function setIndex(index: number) {
           sortable.index = index;
-          order!.textContent = String(index + 1);
+          // order!.textContent = String(index + 1);
 
           // Don't layout if you're dragging
-          if (!dragger.isDragging) layout();
+          if (!dragger.isDragging) {
+            gsap.to(element, { y: sortable.index * rowSize });
+          }
         }
 
         // function onDragStartFunc() {
@@ -107,17 +110,17 @@ function App() {
         //   layout();
         // }
 
-        function layout() {
-          gsap.to(element, { y: sortable.index * rowSize });
-        }
+        // function layout() {
+        //   gsap.to(element, { y: sortable.index * rowSize });
+        // }
 
         return sortable;
       }
 
       // Changes an elements's position in array
-      function arrayMove(array: Array<Sortable>, from: number, to: number) {
-        array.splice(to, 0, array.splice(from, 1)[0]);
-      }
+      // function arrayMove(array: Array<Sortable>, from: number, to: number) {
+      //   array.splice(to, 0, array.splice(from, 1)[0]);
+      // }
 
       // Clamps a value to a min/max
       function clamp(value: number, a: number, b: number) {
@@ -131,27 +134,19 @@ function App() {
       <h1>List</h1>
       <section className="g-container">
         <div className="g-list-item">
-          <div className="item-content">
-            <span className="order">1</span> Alpha
-          </div>
+          <div className="item-content">1 Alpha</div>
         </div>
 
         <div className="g-list-item">
-          <div className="item-content">
-            <span className="order">2</span> Bravo
-          </div>
+          <div className="item-content">2 Bravo</div>
         </div>
 
         <div className="g-list-item">
-          <div className="item-content">
-            <span className="order">3</span> Charlie
-          </div>
+          <div className="item-content">3 Charlie</div>
         </div>
 
         <div className="g-list-item">
-          <div className="item-content">
-            <span className="order">4</span> Delta
-          </div>
+          <div className="item-content">4 Delta</div>
         </div>
       </section>
     </>
