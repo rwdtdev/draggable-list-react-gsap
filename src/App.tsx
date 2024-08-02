@@ -23,7 +23,11 @@ function App() {
     "4 Delta",
   ]);
 
-  const actionType = useRef<"add" | "del" | null>(null);
+  const actionType = useRef<"addItem" | "delItem" | "firstRender" | null>(
+    "firstRender"
+  );
+
+  const refItems = useRef<HTMLLIElement[]>([]);
 
   useEffect(() => {
     container = document.querySelector(".g-container")!;
@@ -32,10 +36,18 @@ function App() {
     () => {
       const rowSize = 100; // => container height / number of items
       const listItems = Array.from(document.querySelectorAll(".g-list-item")); // Array of elements
+      // const listItems = refItems.current; // Array of elements
+      console.log("🚀 ~ App ~ listItems:", listItems);
       const sortables = listItems.map(Sortable); // Array of sortables
       const total = sortables.length;
-      // const dataClone = structuredClone(data);
-
+      const dataClone = structuredClone(data);
+      console.log(
+        "useGSAP:",
+        actionType.current,
+        "sortables.length:",
+        sortables.length,
+        dataClone
+      );
       // if (container) gsap.to(container, { autoAlpha: 1 });
 
       function changeIndex(item: Sortable, to: number) {
@@ -43,7 +55,7 @@ function App() {
         sortables.splice(to, 0, sortables.splice(item.index, 1)[0]);
 
         // Change element's position in DOM. Not always necessary. Just showing how.
-        // dataClone.splice(to, 0, dataClone.splice(item.index, 1)[0]);
+        dataClone.splice(to, 0, dataClone.splice(item.index, 1)[0]);
         // if (to === total - 1) {
         //   container!.appendChild(item.element);
         // } else {
@@ -74,13 +86,12 @@ function App() {
 
           onDrag: onDragFunc,
           onRelease: () => {
-            animation.reverse();
-            gsap.to(element, { y: sortable.index * rowSize });
-            // .then(() => {
-            //   if (actionType.current !== "del") {
-            //     setData(dataClone);
-            //   }
-            // });
+            if (actionType.current !== "delItem") {
+              animation.reverse();
+              gsap.to(element, { y: sortable.index * rowSize });
+              setData(dataClone);
+              container = document.querySelector(".g-container")!;
+            }
           },
           cursor: "inherit",
           type: "y",
@@ -94,25 +105,25 @@ function App() {
           setIndex: setIndex,
         };
 
-        gsap.to(element, { y: index * rowSize });
+        if (actionType.current === "addItem") {
+          const fromIndex = index === data.length - 1 ? index - 1 : index;
 
-        // const tl = gsap.timeline();
-
-        // const fromIndex =
-        //   index === data.length - 1 && actionType.current === "add"
-        //     ? index - 1
-        //     : index;
-
-        // tl.set(element, { zIndex: -index })
-        //   .fromTo(
-        //     element,
-        //     { y: fromIndex * rowSize },
-        //     {
-        //       y: index * rowSize,
-        //       duration: 1,
-        //     }
-        //   )
-        //   .set(element, { zIndex: 0 });
+          const tl = gsap.timeline();
+          tl.set(element, { zIndex: -index })
+            .fromTo(
+              element,
+              { y: fromIndex * rowSize },
+              {
+                y: index * rowSize,
+                duration: 1,
+              }
+            )
+            .set(element, { zIndex: 0 });
+        } else if (actionType.current === "firstRender") {
+          gsap.set(element, { y: index * rowSize });
+        } else {
+          gsap.to(element, { y: index * rowSize });
+        }
 
         function setIndex(index: number) {
           sortable.index = index;
@@ -148,13 +159,18 @@ function App() {
     <>
       <h1>List</h1>
       <ul className="g-container">
-        {data.map((item) => (
-          <li className="g-list-item" key={item}>
+        {data.map((item, i) => (
+          <li
+            className="g-list-item"
+            key={item}
+            ref={(el) => (refItems.current[i] = el!)}
+          >
             <div className="item-content">
               <span
                 onClick={() => {
                   setData((st) => st.filter((it) => it !== item));
-                  actionType.current = "del";
+                  actionType.current = "delItem";
+                  // refItems.current.splice(i, 1);
                 }}
               >
                 del
@@ -163,26 +179,11 @@ function App() {
             </div>
           </li>
         ))}
-        {/* <div className="g-list-item">
-          <div className="item-content">1 Alpha</div>
-        </div>
-
-        <div className="g-list-item">
-          <div className="item-content">2 Bravo</div>
-        </div>
-
-        <div className="g-list-item">
-          <div className="item-content">3 Charlie</div>
-        </div>
-
-        <div className="g-list-item">
-          <div className="item-content">4 Delta</div>
-        </div> */}
       </ul>
       <button
         onClick={() => {
           setData((st) => [...st, nanoid()]);
-          actionType.current = "add";
+          actionType.current = "addItem";
         }}
       >
         s add item
