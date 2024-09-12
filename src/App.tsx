@@ -135,7 +135,7 @@ function App() {
           }
         }
 
-        function onDragFunc() {
+        function onDragFunc(this: Draggable) {
           // Calculate the current index based on element's position
           const index = clamp(Math.round(this.y / rowSize), 0, total - 1);
 
