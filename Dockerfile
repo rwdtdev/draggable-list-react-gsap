@@ -1,11 +1,11 @@
-FROM node:latest
+FROM node:alpine
 
 WORKDIR /app
 
-EXPOSE 5173
+EXPOSE 3002
 
 COPY ./ ./
 
 RUN npm install
 
-CMD ["npx", "vite", "--host"]
+CMD ["node", "server.js"]
