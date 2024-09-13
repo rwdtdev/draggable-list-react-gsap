@@ -8,4 +8,6 @@ COPY ./ ./
 
 RUN npm install
 
+RUN npm build
+
 CMD ["node", "server.js"]
