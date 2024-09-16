@@ -6,7 +6,7 @@ const port = 3002;
 app.use("/assets", express.static("./dist/assets"));
 
 app.get("/", (req, res) => {
-  console.log("🚀 ~ server works!!!!");
+  console.log("🚀 ~ server works!!!");
   res.sendFile(path.resolve("dist", "index.html"));
 });
 
