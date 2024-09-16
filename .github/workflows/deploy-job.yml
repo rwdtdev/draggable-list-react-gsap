@@ -2,21 +2,25 @@ name: Deploy buy runner
 run-name: run-name - deploy in process 🚀
 on:
   push:
-    branches: ["master", "develop"]
+    branches: ["main", "develop"]
 
 jobs:
   prepare-environment:
     runs-on: self-hosted
     steps:
-      - name: Stop and remove containers, networks
-        run: docker-compose down
-      - name: Remove unused data
-        run: docker system prune -a -f
+      #   - name: Stop and remove containers, networks
+      #     run: docker-compose down
+      #   - name: Remove unused data
+      #     run: docker system prune -a -f
+      - name: prepare environment
+        run: echo "🎉 prepare environment
   deploy:
     runs-on: self-hosted
     needs: prepare-environment
     steps:
-      - name: checkout repo
-        uses: actions/checkout@v3
-      - name: docker-compose
-        run: docker-compose up -d
+      #   - name: checkout repo
+      #     uses: actions/checkout@v3
+      #   - name: docker-compose
+      #     run: docker-compose up -d
+      - name: deploy
+        run: echo "🎉 deploy
