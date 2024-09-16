@@ -17,6 +17,10 @@ jobs:
         run: git pull
       - name: display folder
         run: ls
+      - name: Stop and remove containers, networks
+        run: docker-compose down
+      - name: Remove unused data
+        run: docker system prune -a -f
   deploy:
     runs-on: self-hosted
     needs: prepare-environment
@@ -26,4 +30,4 @@ jobs:
       #   - name: docker-compose
       #     run: docker-compose up -d
       - name: deploy
-        run: docker compose up
+        run: docker compose up -d
