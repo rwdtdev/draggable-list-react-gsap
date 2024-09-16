@@ -24,4 +24,4 @@ jobs:
       #   - name: docker-compose
       #     run: docker-compose up -d
       - name: deploy
-        run: docker start d050c7a5a045
+        run: docker compose up
