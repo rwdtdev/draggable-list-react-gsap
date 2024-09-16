@@ -13,6 +13,8 @@ jobs:
       #     run: docker system prune -a -f
       - name: prepare environment
         run: echo "🎉 prepare environment"
+      - name: make directory
+        run: mkdir newdir
   deploy:
     runs-on: self-hosted
     needs: prepare-environment
