@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  back:
+    build: .
+    image: draggable-compose
+    container_name: draggable-compose
+    ports:
+      - "8080:3002"
