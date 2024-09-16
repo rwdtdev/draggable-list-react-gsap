@@ -13,8 +13,8 @@ jobs:
       #     run: docker system prune -a -f
       - name: prepare environment
         run: echo "🎉 prepare environment"
-      - name: docker
-        run: docker ps
+      - name: git pull
+        run: git pull
       - name: display folder
         run: ls
   deploy:
