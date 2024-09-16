@@ -1,5 +1,5 @@
 name: Deploy buy runner
-
+run-name: run-name - deploy in process 🚀
 on:
   push:
     branches: ["master", "develop"]
