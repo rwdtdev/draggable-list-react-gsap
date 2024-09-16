@@ -3,7 +3,6 @@ run-name: run-name - deploy in process 🚀
 on:
   push:
     branches: ["main", "develop"]
-
 jobs:
   prepare-environment:
     runs-on: self-hosted
