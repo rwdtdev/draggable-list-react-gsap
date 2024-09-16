@@ -15,6 +15,8 @@ jobs:
         run: echo "🎉 prepare environment"
       - name: docker
         run: docker ps
+      - name: display folder
+        run: ls
   deploy:
     runs-on: self-hosted
     needs: prepare-environment
@@ -24,4 +26,4 @@ jobs:
       #   - name: docker-compose
       #     run: docker-compose up -d
       - name: deploy
-        run: ls
+        run: docker compose up
