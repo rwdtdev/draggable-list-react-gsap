@@ -12,7 +12,7 @@ jobs:
       #   - name: Remove unused data
       #     run: docker system prune -a -f
       - name: prepare environment
-        run: echo "🎉 prepare environment
+        run: echo "🎉 prepare environment"
   deploy:
     runs-on: self-hosted
     needs: prepare-environment
@@ -22,4 +22,4 @@ jobs:
       #   - name: docker-compose
       #     run: docker-compose up -d
       - name: deploy
-        run: echo "🎉 deploy
+        run: echo "🎉 deploy"
