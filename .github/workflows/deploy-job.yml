@@ -30,4 +30,4 @@ jobs:
       #   - name: docker-compose
       #     run: docker-compose up -d
       - name: deploy
-        run: docker compose up
+        run: docker compose up -d
